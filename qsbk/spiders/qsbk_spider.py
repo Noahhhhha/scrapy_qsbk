@@ -1,11 +1,20 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
-
+#继承 scrapy.Spider 类
 class QsbkSpiderSpider(scrapy.Spider):
-    name = 'qsbk_spider'
-    allowed_domains = ['qiushibaike.com']
-    start_urls = ['http://qiushibaike.com/']
+    name = 'qsbk_spider' # 爬虫的名字，在项目是唯一的
+    allowed_domains = ['qiushibaike.com'] #域名的限定
+    start_urls = ['https://www.qiushibaike.com/text/page/1/'] #起始地址
 
-    def parse(self, response):
-        pass
+    def parse(self, response): #收到的回复
+        #返回类型为 requset 模块中 SelectorList
+        duanzidivs = response.xpath("//div[@id='content-left']/div")
+        for duanzidiv in duanzidivs :
+            print("=" * 30)
+            #返回类型为 Selector
+            #Selector是基于lxml来构建的，支持Xpath选择器、CSS选择器以及正则表达式
+            author = duanzidiv.xpath(".//h2/text()").get().strip() #get() 如果有多个匹配，返回第一个匹配并转化为字符串，没有就返回null，等价于extract_first()方法
+            content = duanzidiv.xpath(".//div[@class='content']//text()").getall() #getall() 返回包含所有结果，转换为一个字符串列表，等价于extract()方法
+            content = "".join(content).strip() # 去除掉换行符等
+            print("%s : %s" % (author,content))

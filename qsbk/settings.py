@@ -26,7 +26,18 @@ NEWSPIDER_MODULE = 'qsbk.spiders'
 #USER_AGENT = 'qsbk (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+'''
+    --爬虫协议，即 robots 协议，也叫机器人协议
+    它用来限定爬虫程序可以爬取的内容范围
+    通常写在 robots.txt 文件中
+    
+    该文件保存在网站的服务器上
+    爬虫程序访问网站时首先查看此文件
+    
+    默认 ROBOTSTXT_OBEY = True ，即遵守此协议
+    设置 ROBOTSTXT_OBEY = False ，不遵守此协议继续爬
+'''
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -46,10 +57,12 @@ ROBOTSTXT_OBEY = True
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
+# --消息头
+DEFAULT_REQUEST_HEADERS = {
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'en',
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'
+}
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
