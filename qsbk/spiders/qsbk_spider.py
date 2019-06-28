@@ -18,7 +18,7 @@ class QsbkSpiderSpider(scrapy.Spider):
             #返回类型为 Selector
             #Selector是基于lxml来构建的，支持Xpath选择器、CSS选择器以及正则表达式
             author = duanzidiv.xpath(".//h2/text()").get().strip() #get() 如果有多个匹配，返回第一个匹配并转化为字符串，没有就返回null，等价于extract_first()方法
-            content = duanzidiv.xpath(".//div[@class='content']//text()").getall() #getall() 返回包含所有结果，转换为一个字符串列表，等价于extract()方法
+            content = duanzidiv.xpath(".//div[@class='content']//text()").getall() #getall() 返回包含所有结果，转换为一个列表，等价于extract()方法
             content = "".join(content).strip() # 去除掉换行符等
 
             # duanzi = {"author" : author, "content" : content}
