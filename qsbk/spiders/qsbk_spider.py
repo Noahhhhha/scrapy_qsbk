@@ -2,6 +2,9 @@
 import scrapy
 
 #继承 scrapy.Spider 类
+from qsbk.items import QsbkItem
+
+
 class QsbkSpiderSpider(scrapy.Spider):
     name = 'qsbk_spider' # 爬虫的名字，在项目是唯一的
     allowed_domains = ['qiushibaike.com'] #域名的限定
@@ -17,4 +20,11 @@ class QsbkSpiderSpider(scrapy.Spider):
             author = duanzidiv.xpath(".//h2/text()").get().strip() #get() 如果有多个匹配，返回第一个匹配并转化为字符串，没有就返回null，等价于extract_first()方法
             content = duanzidiv.xpath(".//div[@class='content']//text()").getall() #getall() 返回包含所有结果，转换为一个字符串列表，等价于extract()方法
             content = "".join(content).strip() # 去除掉换行符等
-            print("%s : %s" % (author,content))
+
+            # duanzi = {"author" : author, "content" : content}
+            # yield duanzi #将每一个段子移交给引擎engine，引擎调用pipline
+
+            # 将数据返回给engine，调用pipline
+            # 使用item更专业，一个特定的类，而非字典
+            item = QsbkItem(author = author, content = content)
+            yield  item

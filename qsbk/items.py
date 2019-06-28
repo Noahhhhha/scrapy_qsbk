@@ -11,6 +11,5 @@ import scrapy
     item：存放爬虫爬取下来数据的模型
 '''
 class QsbkItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    author = scrapy.Field() # 定义的固定写法
+    content = scrapy.Field()
