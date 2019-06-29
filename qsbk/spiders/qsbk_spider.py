@@ -9,6 +9,7 @@ class QsbkSpiderSpider(scrapy.Spider):
     name = 'qsbk_spider' # 爬虫的名字，在项目是唯一的
     allowed_domains = ['qiushibaike.com'] #域名的限定
     start_urls = ['https://www.qiushibaike.com/text/page/1/'] #起始地址
+    base_domain = "https://www.qiushibaike.com"
 
     def parse(self, response): #收到的回复
         #返回类型为 requset 模块中 SelectorList
@@ -28,3 +29,9 @@ class QsbkSpiderSpider(scrapy.Spider):
             # 使用item更专业，一个特定的类，而非字典
             item = QsbkItem(author = author, content = content)
             yield  item
+        next_url = response.xpath("//ul[@class='pagination']/li[last()]/a/@href").get() #找到下一页的链接
+        if not next_url: # 如果没有下一页了
+            return
+        else:
+            #yield 函数类似于迭代器加return关键字
+            yield scrapy.Request(self.base_domain+next_url,callback=self.parse) #回调方法
